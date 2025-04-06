@@ -193,10 +193,10 @@ extends CFGenKbGenFileObj
 
 		String baseWorkDir;
 		if ((sourceBundle != null) && (sourceBundle.length() > 0)) {
-			baseWorkDir = projectDirName + dirSep + sourceBundle;
+			baseWorkDir = sourceBundle + dirSep + projectDirName;
 		}
 		else {
-			baseWorkDir = projectDirName;
+			baseWorkDir = "src" + dirSep + projectDirName;
 		}
 
 		String baseGenDir;
