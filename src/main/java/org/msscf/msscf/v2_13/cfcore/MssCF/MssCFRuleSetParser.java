@@ -66,13 +66,13 @@ public class MssCFRuleSetParser extends MssCFSaxParser implements ContentHandler
 	/**
 	 *	The namespace URI of the supported schema
 	 */
-	public final static String	SCHEMA_XMLNS = "uri://org.msscf/msscf/2.0.13/cfgenkb-2.13-ruleset";
+	public final static String	SCHEMA_XMLNS = "http://gitlab.markhome.server:8088/msscf/2.0.13/cfgenkb-2.13-ruleset";
 
 	/**
 	 *	The source for loading the supported schema
 	 */
-	public final static String	SCHEMA_URI = "/opt/msscf/2.0.13/xsd/cfgenkb-2.13-ruleset.xsd";
-	public final static String	SCHEMA_HTTPS_URI = "https://msscode.com/msscf/2.0.13/xsd/cfgenkb-2.13-ruleset.xsd";
+	public final static String	SCHEMA_URI = "http://gitlab.markhome.server:8088/msscf/2.0.13/xsd/cfgenkb-2.13-ruleset.xsd";
+	public final static String	SCHEMA_HTTPS_URI = "http://gitlab.markhome.server:8088/msscf/2.0.13/xsd/cfgenkb-2.13-ruleset.xsd";
 	public final static String	SCHEMA_ROOT_URI = "/xsd/cfgenkb-2.13-ruleset.xsd";
 
 	/**

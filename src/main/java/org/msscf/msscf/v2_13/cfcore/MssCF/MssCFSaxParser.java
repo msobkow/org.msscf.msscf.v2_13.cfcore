@@ -82,12 +82,12 @@ public abstract class MssCFSaxParser extends CFLibXmlCoreSaxParser implements Co
 	/**
 	 *	The source URI for locating schemas
 	 */
-	public final static String	BASE_SCHEMA_URI = "/opt/msscf/2.0.13/xsd/";
+	public final static String	BASE_SCHEMA_URI = "http://gitlab.markhome.server:8088/msscf/2.0.13/xsd/";
 
 	/**
 	 *	The source URI for locating schemas on the internet
 	 */
-	public final static String	BASE_SCHEMA_HTTPS_URI = "https://msscode.com/msscf/2.0.13/xsd/";
+	public final static String	BASE_SCHEMA_HTTPS_URI = "http://gitlab.markhome.server:8088/msscf/2.0.13/xsd/";
 
 	/**
 	 *	The source URI for locating schemas
