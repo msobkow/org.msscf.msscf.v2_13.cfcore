@@ -45,13 +45,13 @@ import java.util.Vector;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
-import org.apache.xerces.xni.grammars.Grammar;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 import org.msscf.msscf.v2_13.cflib.CFLib.*;
+import org.msscf.msscf.v2_13.cflib.CFLib.xml.*;
 import org.msscf.msscf.v2_13.cfcore.CFGenKbObj.*;
 
 /**
@@ -85,8 +85,6 @@ public class MssCFToolSetParser extends MssCFSaxParser implements ContentHandler
 	 */
 	private String curToolSet = null;
 
-	protected static Grammar myGrammar = null;
-
 //	Constructors
 
 	/**
@@ -98,47 +96,6 @@ public class MssCFToolSetParser extends MssCFSaxParser implements ContentHandler
 	public MssCFToolSetParser( MssCFEngine engine, ICFLibMessageLog jLogger ) {
 		super( engine, jLogger );
 		setRootElementHandler( new RootHandler( this ) );
-		if( myGrammar == null ) {
-			InputStream input = null;
-
-			File file = new File( SCHEMA_URI );
-			if( file.exists() ) {
-				try {
-					input = new FileInputStream( file );
-				}
-				catch( Exception e ) {
-					input = null;
-				}
-			}
-
-			if( input == null ) {
-				try {
-					URI myURI = new URI( SCHEMA_HTTPS_URI );
-					URL myURL = myURI.toURL();
-					input = myURL.openStream();
-				}
-				catch( MalformedURLException e ) {
-					e.printStackTrace();
-					input = null;
-				}
-				catch( URISyntaxException e ) {
-					e.printStackTrace();
-					input = null;
-				}
-				catch( IOException e ) {
-					e.printStackTrace();
-					input = null;
-				}
-			}
-
-			if( input == null ) {
-				input = getClass().getResourceAsStream( SCHEMA_ROOT_URI );
-			}
-
-			if( input != null ) {
-				myGrammar = addToGrammarPool( SCHEMA_URI, input );
-			}
-		}
 		initParser();
 		ruleSetParser = new MssCFRuleSetParser( engine, jLogger );
 	}

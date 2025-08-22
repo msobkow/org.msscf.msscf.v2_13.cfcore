@@ -29,6 +29,7 @@ package org.msscf.msscf.v2_13.cfcore.MssCF;
 import java.io.*;
 import java.util.*;
 import org.msscf.msscf.v2_13.cflib.CFLib.*;
+import org.msscf.msscf.v2_13.cflib.CFLib.xml.*;
 import org.msscf.msscf.v2_13.cfcore.CFGenKbObj.*;
 import org.msscf.msscf.v2_13.cfcore.CFGenKbObj.*;
 

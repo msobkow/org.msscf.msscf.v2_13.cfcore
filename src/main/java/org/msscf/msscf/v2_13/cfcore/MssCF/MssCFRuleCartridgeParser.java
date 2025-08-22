@@ -44,15 +44,12 @@ import java.util.Map;
 import java.util.Vector;
 
 import org.msscf.msscf.v2_13.cflib.CFLib.*;
+import org.msscf.msscf.v2_13.cflib.CFLib.xml.*;
 import org.msscf.msscf.v2_13.cfcore.CFGenKbObj.*;
 import org.msscf.msscf.v2_13.cfcore.MssCF.MssCFRuleSetParser.RootHandler;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
-import org.apache.xerces.xni.grammars.Grammar;
-import org.apache.xerces.xni.grammars.XMLGrammarPool;
-import org.apache.xerces.xni.parser.XMLInputSource;
-import org.apache.xerces.parsers.XMLGrammarPreparser;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
@@ -105,8 +102,6 @@ public class MssCFRuleCartridgeParser extends MssCFSaxParser implements ContentH
 	 */
 	private MssCFRuleCartridgeParser parentParser = null;
 
-	protected static Grammar myGrammar = null;
-
 //	Constructors
 
 	public MssCFRuleCartridgeParser( MssCFEngine engine, ICFLibMessageLog log ) {
@@ -114,47 +109,6 @@ public class MssCFRuleCartridgeParser extends MssCFSaxParser implements ContentH
 		// Deprecated by Log4J 2 debugLogger.setLevel( Level.INFO );
 		setRootElementHandler( new RootHandler( this ) );
 		parentParser = null;
-		if( myGrammar == null ) {
-			InputStream input = null;
-
-			File file = new File( SCHEMA_URI );
-			if( file.exists() ) {
-				try {
-					input = new FileInputStream( file );
-				}
-				catch( Exception e ) {
-					input = null;
-				}
-			}
-
-			if( input == null ) {
-				try {
-					URI myURI = new URI( SCHEMA_HTTPS_URI );
-					URL myURL = myURI.toURL();
-					input = myURL.openStream();
-				}
-				catch( MalformedURLException e ) {
-					e.printStackTrace();
-					input = null;
-				}
-				catch( URISyntaxException e ) {
-					e.printStackTrace();
-					input = null;
-				}
-				catch( IOException e ) {
-					e.printStackTrace();
-					input = null;
-				}
-			}
-
-			if( input == null ) {
-				input = getClass().getResourceAsStream( SCHEMA_ROOT_URI );
-			}
-
-			if( input != null ) {
-				myGrammar = addToGrammarPool( SCHEMA_URI, input );
-			}
-		}
 		initParser();
 		parentParser = null;
 		toolSetParser = new MssCFToolSetParser( getEngine(), getLog() );
@@ -170,27 +124,6 @@ public class MssCFRuleCartridgeParser extends MssCFSaxParser implements ContentH
 		// Deprecated by Log4J 2 debugLogger.setLevel( Level.INFO );
 		setRootElementHandler( new RootHandler( this ) );
 		parentParser = parser;
-		if( myGrammar == null ) {
-			InputStream input;
-			File file = new File( SCHEMA_URI );
-			if( file.exists() ) {
-				try {
-					input = new FileInputStream( file );
-				}
-				catch( Exception e ) {
-					input = null;
-				}
-				if( input != null ) {
-					myGrammar = addToGrammarPool( SCHEMA_URI, input );
-				}
-			}
-			else {
-				input = getClass().getResourceAsStream( SCHEMA_ROOT_URI );
-				if( input != null ) {
-					myGrammar = addToGrammarPool( SCHEMA_ROOT_URI, input );
-				}
-			}
-		}
 		initParser();
 
 		toolSetParser = new MssCFToolSetParser( getEngine(), getLog() );

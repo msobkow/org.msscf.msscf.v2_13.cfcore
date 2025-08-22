@@ -7,7 +7,7 @@
  *	
  *	MSS Code Factory CFCore 2.13 Generation Knowledgebase
  *	
- *	Copyright 2020-2021 Mark Stephen Sobkow
+ *	Copyright 2020 Mark Stephen Sobkow
  *	
  *		This file is part of MSS Code Factory.
  *	

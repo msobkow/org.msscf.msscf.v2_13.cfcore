@@ -51,6 +51,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 import org.msscf.msscf.v2_13.cflib.CFLib.*;
+import org.msscf.msscf.v2_13.cflib.CFLib.xml.*;
 
 /**
  *	A RuleCartridgeParser is a JAXP 1.3 Validating XML parser

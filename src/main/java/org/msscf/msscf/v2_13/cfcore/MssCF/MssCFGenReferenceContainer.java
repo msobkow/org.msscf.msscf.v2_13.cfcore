@@ -27,6 +27,7 @@
 package org.msscf.msscf.v2_13.cfcore.MssCF;
 
 import org.msscf.msscf.v2_13.cflib.CFLib.*;
+import org.msscf.msscf.v2_13.cflib.CFLib.xml.*;
 import org.msscf.msscf.v2_13.cfcore.CFGenKb.*;
 import org.msscf.msscf.v2_13.cfcore.CFGenKbObj.*;
 import org.msscf.msscf.v2_13.cfcore.CFGenKbObj.*;

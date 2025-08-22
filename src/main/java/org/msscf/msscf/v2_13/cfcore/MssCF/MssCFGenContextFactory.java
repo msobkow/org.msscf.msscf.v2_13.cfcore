@@ -27,6 +27,7 @@
 package org.msscf.msscf.v2_13.cfcore.MssCF;
 
 import org.msscf.msscf.v2_13.cflib.CFLib.*;
+import org.msscf.msscf.v2_13.cflib.CFLib.xml.*;
 
 public class MssCFGenContextFactory
 {
