@@ -119,9 +119,9 @@ extends CFGenKbGenFileObj
 		String generateOnce = getOptionalGenerateOnce();
 
 		String moduleName = getModuleName( genContext );
-		if( moduleName == null ) {
+		// if( moduleName == null ) {
 			moduleName = S_Empty;
-		}
+		// }
 
 		String rootGenDir = genContext.getRootGenDir();
 
@@ -214,7 +214,7 @@ extends CFGenKbGenFileObj
 			if (subPackage != null) {
 				fullPackage = basePackage + "." + subPackage;
 				if( moduleName.length() > 0 ) {
-					srcFileDir = basePackage + dirSep + moduleName + dirSep + subPackage.replace( '.', dirSep.charAt(0) );
+					srcFileDir = basePackage + dirSep + moduleName.replace( '.', dirSep.charAt(0) ) + dirSep + subPackage.replace( '.', dirSep.charAt(0) );
 				}
 				else {
 					srcFileDir = basePackage + dirSep + subPackage.replace( '.', dirSep.charAt(0) );
@@ -223,7 +223,7 @@ extends CFGenKbGenFileObj
 			else {
 				fullPackage = basePackage;
 				if( moduleName.length() > 0 ) {
-					srcFileDir = moduleName + dirSep + basePackage;
+					srcFileDir = basePackage + dirSep + moduleName.replace( '.', dirSep.charAt(0) );
 				}
 				else {
 					srcFileDir = basePackage;
