@@ -204,10 +204,11 @@ public class CFGenKbGelInstructionBuff
 
 	public void setRequiredSourceText( String value ) {
 		if( value == null ) {
-			throw new CFLibNullArgumentException( getClass(),
-				"setRequiredSourceText",
-				1,
-				"value" );
+			value = "";
+//			throw new CFLibNullArgumentException( getClass(),
+//				"setRequiredSourceText",
+//				1,
+//				"value" );
 		}
 		if( value.length() > 2000000 ) {
 			throw new CFLibArgumentOverflowException( getClass(),
