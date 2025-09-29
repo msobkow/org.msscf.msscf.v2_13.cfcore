@@ -282,6 +282,9 @@ public class CFGenKbGelSwitchObj
 	public String expand( MssCFGenContext genContext ) {
 		final String S_ProcName = "CFGenKbGelSwitchObj.expand() ";
 
+		String retval = null;
+
+		try {
 		String valueExpansion = getRequiredValueExpansion();
 		if( ( valueExpansion == null ) || ( valueExpansion.length() == 0 ) ) {
 			throw new RuntimeException( S_ProcName + "ValueExpansion was not properly set" );
@@ -292,149 +295,153 @@ public class CFGenKbGelSwitchObj
 			throw new RuntimeException( S_ProcName + "Could not resolve Value expansion \"" + valueExpansion + "\"" );
 		}
 
-		String valueStrValue;
-		if( valueItem instanceof MssCFGenFileObj ) {
-			valueStrValue = ((MssCFGenFileObj)valueItem).expandBody( genContext );
-		}
-		else if( valueItem instanceof MssCFGenRuleObj ) {
-			valueStrValue = ((MssCFGenRuleObj)valueItem).expandBody( genContext );
-		}
-		else if (valueItem instanceof MssCFGenTruncObj) {
-			valueStrValue = ((MssCFGenTruncObj)valueItem).expandBody( genContext );
-		}
-		else if (valueItem instanceof MssCFGenBindObj) {
-			valueStrValue = ((MssCFGenBindObj)valueItem).expandBody( genContext );
-		}
-		else if( valueItem instanceof MssCFGenReferenceObj ) {
-			throw new RuntimeException(S_ProcName + "Cannot expand reference " + valueItem.getRequiredName() + " directly");
-		}
-		else if( valueItem instanceof MssCFGenIteratorObj ) {
-			valueStrValue = ((MssCFGenIteratorObj)valueItem).expandBody( genContext );
-		}
-		else {
-			throw new RuntimeException( S_ProcName +  "Unsupported generation item class" );
-		}
-
-		//	If null was returned, invoke either the nil or default macro
-		//	and return the result
-
-		String retval;
-		if( valueStrValue == null ) {
-
-			String effectiveExpansion = getOptionalNilExpansion();
-			if( ( effectiveExpansion == null ) || ( effectiveExpansion.length() == 0 ) ) {
-				effectiveExpansion = getRequiredDefaultExpansion();
-				if( ( effectiveExpansion == null ) || ( effectiveExpansion.length() == 0 ) ) {
-					throw new RuntimeException( S_ProcName + "Neither NilExpansion nor DefaultExpansion were compiled properly" );
-				}
+			String valueStrValue;
+			if( valueItem instanceof MssCFGenFileObj ) {
+				valueStrValue = ((MssCFGenFileObj)valueItem).expandBody( genContext );
 			}
-
-			ICFGenKbGenItemObj genItem = genContext.getGenEngine().findContextItem(genContext, effectiveExpansion );
-			if( genItem == null ) {
-				throw new RuntimeException( S_ProcName + "Could not resolve expansion \"" + effectiveExpansion + "\"" );
+			else if( valueItem instanceof MssCFGenRuleObj ) {
+				valueStrValue = ((MssCFGenRuleObj)valueItem).expandBody( genContext );
 			}
-
-			if( genItem instanceof MssCFGenFileObj ) {
-				retval = ((MssCFGenFileObj)genItem).expandBody( genContext );
+			else if (valueItem instanceof MssCFGenTruncObj) {
+				valueStrValue = ((MssCFGenTruncObj)valueItem).expandBody( genContext );
 			}
-			else if( genItem instanceof MssCFGenRuleObj ) {
-				retval = ((MssCFGenRuleObj)genItem).expandBody( genContext );
+			else if (valueItem instanceof MssCFGenBindObj) {
+				valueStrValue = ((MssCFGenBindObj)valueItem).expandBody( genContext );
 			}
-			else if (genItem instanceof MssCFGenTruncObj) {
-				retval = ((MssCFGenTruncObj)genItem).expandBody( genContext );
+			else if( valueItem instanceof MssCFGenReferenceObj ) {
+				throw new RuntimeException(S_ProcName + "Cannot expand reference " + valueItem.getRequiredName() + " directly");
 			}
-			else if (genItem instanceof MssCFGenBindObj) {
-				retval = ((MssCFGenBindObj)genItem).expandBody( genContext );
-			}
-			else if( genItem instanceof MssCFGenReferenceObj ) {
-				throw new RuntimeException(S_ProcName + "Cannot expand reference " + genItem.getRequiredName() + " directly");
-			}
-			else if( genItem instanceof MssCFGenIteratorObj ) {
-				retval = ((MssCFGenIteratorObj)genItem).expandBody( genContext );
+			else if( valueItem instanceof MssCFGenIteratorObj ) {
+				valueStrValue = ((MssCFGenIteratorObj)valueItem).expandBody( genContext );
 			}
 			else {
 				throw new RuntimeException( S_ProcName +  "Unsupported generation item class" );
 			}
+	
+			//	If null was returned, invoke either the nil or default macro
+			//	and return the result
+	
+			if( valueStrValue == null ) {
+	
+				String effectiveExpansion = getOptionalNilExpansion();
+				if( ( effectiveExpansion == null ) || ( effectiveExpansion.length() == 0 ) ) {
+					effectiveExpansion = getRequiredDefaultExpansion();
+					if( ( effectiveExpansion == null ) || ( effectiveExpansion.length() == 0 ) ) {
+						throw new RuntimeException( S_ProcName + "Neither NilExpansion nor DefaultExpansion were compiled properly" );
+					}
+				}
+	
+				ICFGenKbGenItemObj genItem = genContext.getGenEngine().findContextItem(genContext, effectiveExpansion );
+				if( genItem == null ) {
+					throw new RuntimeException( S_ProcName + "Could not resolve expansion \"" + effectiveExpansion + "\"" );
+				}
+	
+				if( genItem instanceof MssCFGenFileObj ) {
+					retval = ((MssCFGenFileObj)genItem).expandBody( genContext );
+				}
+				else if( genItem instanceof MssCFGenRuleObj ) {
+					retval = ((MssCFGenRuleObj)genItem).expandBody( genContext );
+				}
+				else if (genItem instanceof MssCFGenTruncObj) {
+					retval = ((MssCFGenTruncObj)genItem).expandBody( genContext );
+				}
+				else if (genItem instanceof MssCFGenBindObj) {
+					retval = ((MssCFGenBindObj)genItem).expandBody( genContext );
+				}
+				else if( genItem instanceof MssCFGenReferenceObj ) {
+					throw new RuntimeException(S_ProcName + "Cannot expand reference " + genItem.getRequiredName() + " directly");
+				}
+				else if( genItem instanceof MssCFGenIteratorObj ) {
+					retval = ((MssCFGenIteratorObj)genItem).expandBody( genContext );
+				}
+				else {
+					throw new RuntimeException( S_ProcName +  "Unsupported generation item class" );
+				}
+			}
+			else if( valueStrValue.length() == 0 ) {
+	
+				String effectiveExpansion = getOptionalEmptyExpansion();
+				if( ( effectiveExpansion == null ) || ( effectiveExpansion.length() == 0 ) ) {
+					effectiveExpansion = getRequiredDefaultExpansion();
+					if( ( effectiveExpansion == null ) || ( effectiveExpansion.length() == 0 ) ) {
+						throw new RuntimeException( S_ProcName + "Neither EmptyExpansion nor DefaultExpansion were compiled properly" );
+					}
+				}
+	
+				ICFGenKbGenItemObj genItem = genContext.getGenEngine().findContextItem(genContext, effectiveExpansion );
+				if( genItem == null ) {
+					throw new RuntimeException( S_ProcName + "Could not resolve expansion \"" + effectiveExpansion + "\"" );
+				}
+	
+				if( genItem instanceof MssCFGenFileObj ) {
+					retval = ((MssCFGenFileObj)genItem).expandBody( genContext );
+				}
+				else if( genItem instanceof MssCFGenRuleObj ) {
+					retval = ((MssCFGenRuleObj)genItem).expandBody( genContext );
+				}
+				else if (genItem instanceof MssCFGenTruncObj) {
+					retval = ((MssCFGenTruncObj)genItem).expandBody( genContext );
+				}
+				else if (genItem instanceof MssCFGenBindObj) {
+					retval = ((MssCFGenBindObj)genItem).expandBody( genContext );
+				}
+				else if( genItem instanceof MssCFGenReferenceObj ) {
+					throw new RuntimeException(S_ProcName + "Cannot expand reference " + genItem.getRequiredName() + " directly");
+				}
+				else if( genItem instanceof MssCFGenIteratorObj ) {
+					retval = ((MssCFGenIteratorObj)genItem).expandBody( genContext );
+				}
+				else {
+					throw new RuntimeException( S_ProcName +  "Unsupported generation item class" );
+				}
+			}
+			else {
+				String effectiveExpansion;
+				ICFGenKbGelSwitchLimbObj switchLimb = genContext.getGenEngine().getGelSwitchLimbTableObj().readGelSwitchLimbByPIdx( getRequiredTenantId(), getRequiredGelCacheId(), getRequiredGelInstId(), valueStrValue );
+				if( switchLimb != null ) {
+					effectiveExpansion = switchLimb.getRequiredLimbExpansion();
+					if( ( effectiveExpansion == null ) || ( effectiveExpansion.length() == 0 ) ) {
+						throw new RuntimeException( S_ProcName + "Switch limb for " + valueStrValue + " nas a null or empty LimbExpansion" );
+					}
+				}
+				else {
+					effectiveExpansion = getRequiredDefaultExpansion();
+					if( ( effectiveExpansion == null ) || ( effectiveExpansion.length() == 0 ) ) {
+						throw new RuntimeException( S_ProcName + "Switch nas a null or empty DefaultExpansion" );
+					}
+				}
+	
+				ICFGenKbGenItemObj genItem = genContext.getGenEngine().findContextItem(genContext, effectiveExpansion );
+				if( genItem == null ) {
+					throw new RuntimeException( S_ProcName + "Could not resolve expansion \"" + effectiveExpansion + "\"" );
+				}
+	
+				if( genItem instanceof MssCFGenFileObj ) {
+					retval = ((MssCFGenFileObj)genItem).expandBody( genContext );
+				}
+				else if( genItem instanceof MssCFGenRuleObj ) {
+					retval = ((MssCFGenRuleObj)genItem).expandBody( genContext );
+				}
+				else if (genItem instanceof MssCFGenTruncObj) {
+					retval = ((MssCFGenTruncObj)genItem).expandBody( genContext );
+				}
+				else if (genItem instanceof MssCFGenBindObj) {
+					retval = ((MssCFGenBindObj)genItem).expandBody( genContext );
+				}
+				else if( genItem instanceof MssCFGenReferenceObj ) {
+					throw new RuntimeException(S_ProcName + "Cannot expand reference " + genItem.getRequiredName() + " directly");
+				}
+				else if( genItem instanceof MssCFGenIteratorObj ) {
+					retval = ((MssCFGenIteratorObj)genItem).expandBody( genContext );
+				}
+				else {
+					throw new RuntimeException( S_ProcName +  "Unsupported generation item class" );
+				}
+			}
 		}
-		else if( valueStrValue.length() == 0 ) {
-
-			String effectiveExpansion = getOptionalEmptyExpansion();
-			if( ( effectiveExpansion == null ) || ( effectiveExpansion.length() == 0 ) ) {
-				effectiveExpansion = getRequiredDefaultExpansion();
-				if( ( effectiveExpansion == null ) || ( effectiveExpansion.length() == 0 ) ) {
-					throw new RuntimeException( S_ProcName + "Neither EmptyExpansion nor DefaultExpansion were compiled properly" );
-				}
-			}
-
-			ICFGenKbGenItemObj genItem = genContext.getGenEngine().findContextItem(genContext, effectiveExpansion );
-			if( genItem == null ) {
-				throw new RuntimeException( S_ProcName + "Could not resolve expansion \"" + effectiveExpansion + "\"" );
-			}
-
-			if( genItem instanceof MssCFGenFileObj ) {
-				retval = ((MssCFGenFileObj)genItem).expandBody( genContext );
-			}
-			else if( genItem instanceof MssCFGenRuleObj ) {
-				retval = ((MssCFGenRuleObj)genItem).expandBody( genContext );
-			}
-			else if (genItem instanceof MssCFGenTruncObj) {
-				retval = ((MssCFGenTruncObj)genItem).expandBody( genContext );
-			}
-			else if (genItem instanceof MssCFGenBindObj) {
-				retval = ((MssCFGenBindObj)genItem).expandBody( genContext );
-			}
-			else if( genItem instanceof MssCFGenReferenceObj ) {
-				throw new RuntimeException(S_ProcName + "Cannot expand reference " + genItem.getRequiredName() + " directly");
-			}
-			else if( genItem instanceof MssCFGenIteratorObj ) {
-				retval = ((MssCFGenIteratorObj)genItem).expandBody( genContext );
-			}
-			else {
-				throw new RuntimeException( S_ProcName +  "Unsupported generation item class" );
-			}
-		}
-		else {
-			String effectiveExpansion;
-			ICFGenKbGelSwitchLimbObj switchLimb = genContext.getGenEngine().getGelSwitchLimbTableObj().readGelSwitchLimbByPIdx( getRequiredTenantId(), getRequiredGelCacheId(), getRequiredGelInstId(), valueStrValue );
-			if( switchLimb != null ) {
-				effectiveExpansion = switchLimb.getRequiredLimbExpansion();
-				if( ( effectiveExpansion == null ) || ( effectiveExpansion.length() == 0 ) ) {
-					throw new RuntimeException( S_ProcName + "Switch limb for " + valueStrValue + " nas a null or empty LimbExpansion" );
-				}
-			}
-			else {
-				effectiveExpansion = getRequiredDefaultExpansion();
-				if( ( effectiveExpansion == null ) || ( effectiveExpansion.length() == 0 ) ) {
-					throw new RuntimeException( S_ProcName + "Switch nas a null or empty DefaultExpansion" );
-				}
-			}
-
-			ICFGenKbGenItemObj genItem = genContext.getGenEngine().findContextItem(genContext, effectiveExpansion );
-			if( genItem == null ) {
-				throw new RuntimeException( S_ProcName + "Could not resolve expansion \"" + effectiveExpansion + "\"" );
-			}
-
-			if( genItem instanceof MssCFGenFileObj ) {
-				retval = ((MssCFGenFileObj)genItem).expandBody( genContext );
-			}
-			else if( genItem instanceof MssCFGenRuleObj ) {
-				retval = ((MssCFGenRuleObj)genItem).expandBody( genContext );
-			}
-			else if (genItem instanceof MssCFGenTruncObj) {
-				retval = ((MssCFGenTruncObj)genItem).expandBody( genContext );
-			}
-			else if (genItem instanceof MssCFGenBindObj) {
-				retval = ((MssCFGenBindObj)genItem).expandBody( genContext );
-			}
-			else if( genItem instanceof MssCFGenReferenceObj ) {
-				throw new RuntimeException(S_ProcName + "Cannot expand reference " + genItem.getRequiredName() + " directly");
-			}
-			else if( genItem instanceof MssCFGenIteratorObj ) {
-				retval = ((MssCFGenIteratorObj)genItem).expandBody( genContext );
-			}
-			else {
-				throw new RuntimeException( S_ProcName +  "Unsupported generation item class" );
-			}
+		catch (Exception ex) {
+			System.err.println( "Caught " + ex.getClass().getCanonicalName() + " while expanding rule - " + ex.getMessage());
+			retval = null;
 		}
 
 		if( retval == null ) {
