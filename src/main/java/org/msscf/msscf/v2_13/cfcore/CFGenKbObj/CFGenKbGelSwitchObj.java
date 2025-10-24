@@ -292,6 +292,10 @@ public class CFGenKbGelSwitchObj
 			throw new RuntimeException( S_ProcName + "Could not resolve Value expansion \"" + valueExpansion + "\"" );
 		}
 
+		if (MssCFEngine.getDebugMode()) {
+			System.err.println("Expanding " + valueItem.getRequiredName());
+		}
+
 		String valueStrValue;
 		if( valueItem instanceof MssCFGenFileObj ) {
 			valueStrValue = ((MssCFGenFileObj)valueItem).expandBody( genContext );
@@ -333,6 +337,9 @@ public class CFGenKbGelSwitchObj
 			if( genItem == null ) {
 				throw new RuntimeException( S_ProcName + "Could not resolve expansion \"" + effectiveExpansion + "\"" );
 			}
+			if (MssCFEngine.getDebugMode()) {
+				System.err.println("Expanding " + genItem.getRequiredName());
+			}
 
 			if( genItem instanceof MssCFGenFileObj ) {
 				retval = ((MssCFGenFileObj)genItem).expandBody( genContext );
@@ -369,6 +376,9 @@ public class CFGenKbGelSwitchObj
 			ICFGenKbGenItemObj genItem = genContext.getGenEngine().findContextItem(genContext, effectiveExpansion );
 			if( genItem == null ) {
 				throw new RuntimeException( S_ProcName + "Could not resolve expansion \"" + effectiveExpansion + "\"" );
+			}
+			if (MssCFEngine.getDebugMode()) {
+				System.err.println("Expanding " + genItem.getRequiredName());
 			}
 
 			if( genItem instanceof MssCFGenFileObj ) {
@@ -413,7 +423,9 @@ public class CFGenKbGelSwitchObj
 			if( genItem == null ) {
 				throw new RuntimeException( S_ProcName + "Could not resolve expansion \"" + effectiveExpansion + "\"" );
 			}
-
+			if (MssCFEngine.getDebugMode()) {
+				System.err.println("Expanding " + genItem.getRequiredName());
+			}
 			if( genItem instanceof MssCFGenFileObj ) {
 				retval = ((MssCFGenFileObj)genItem).expandBody( genContext );
 			}

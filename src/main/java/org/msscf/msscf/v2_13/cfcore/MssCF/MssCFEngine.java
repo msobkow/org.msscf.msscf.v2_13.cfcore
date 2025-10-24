@@ -1065,21 +1065,36 @@ extends CFGenKbSchemaObj
 		//		returns a single-line string, we log it.
 
 			if( matchItem instanceof MssCFGenFileObj ) {
+				if (debugMode) {
+					System.err.println("Expand " + ((MssCFGenFileObj)matchItem).getRequiredName());
+				}
 				generated = ((MssCFGenFileObj)matchItem).expandBody( genContext );
 			}
 			else if (matchItem instanceof MssCFGenTruncObj) {
+				if (debugMode) {
+					System.err.println("Expand " + ((MssCFGenTruncObj)matchItem).getRequiredName());
+				}
 				generated = ((MssCFGenTruncObj)matchItem).expandBody( genContext );
 			}
 			else if (matchItem instanceof MssCFGenBindObj) {
+				if (debugMode) {
+					System.err.println("Expand " + ((MssCFGenBindObj)matchItem).getRequiredName());
+				}
 				generated = ((MssCFGenBindObj)matchItem).expandBody( genContext );
 			}
 			else if (matchItem instanceof MssCFGenIteratorObj) {
+				if (debugMode) {
+					System.err.println("Expand " + ((MssCFGenIteratorObj)matchItem).getRequiredName());
+				}
 				generated = ((MssCFGenIteratorObj)matchItem).expandBody( genContext );
 			}
 			else if (matchItem instanceof MssCFGenReferenceObj) {
 				generated = ""; // ((CFGenReferenceObj)matchItem).expandBody( genContext );
 			}
 			else if (matchItem instanceof MssCFGenRuleObj) {
+				if (debugMode) {
+					System.err.println("Expand " + ((MssCFGenRuleObj)matchItem).getRequiredName());
+				}
 				generated = ((MssCFGenRuleObj)matchItem).expandBody( genContext );
 			}
 			else {
