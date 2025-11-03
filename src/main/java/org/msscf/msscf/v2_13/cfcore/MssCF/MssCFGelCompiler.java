@@ -684,7 +684,11 @@ public class MssCFGelCompiler
 	public final static String _CONSTRAIN_MAX = "constrainMax";
 	public final static String _CONSTRAIN_MIN = "constrainMin";
 
-
+	/**
+	 * hexToDecimal expects the remainder of the rule to expand into a hexadecimal string that can be
+	 * parsed into a Long and a decimal string returned.
+	 */
+	public final static String _HEX_TO_DECIMAL = "hexToDecimal";
 	protected class MssCFBuiltinEmpty
 	extends CFGenKbGelBuiltinObj
 	{
@@ -1404,6 +1408,35 @@ public class MssCFGelCompiler
 			return( retval );
 		}
 	}
+	protected class MssCFModifierHexToDecimal
+	extends CFGenKbGelModifierObj
+	{
+		public MssCFModifierHexToDecimal( ICFGenKbSchemaObj argSchema ) {
+			super( argSchema );
+		}
+
+		public String expand( MssCFGenContext genContext ) {
+			String raw;
+			if( getOptionalLookupRemainder() != null ) {
+				raw = getOptionalLookupRemainder().expand( genContext );
+			}
+			else {
+				throw new CFLibRuntimeException( getClass(), "expand", "Modifiers must have a remainder to evaluate" );
+			}
+			if( raw != null && !raw.isEmpty()) {
+				try {
+					long v = Long.parseLong(raw, 16);
+					return Long.toString(v);
+				}
+				catch (Throwable th) {
+					return null;
+				}
+			}
+			else {
+				return null;
+			}
+		}
+	}
 
 	protected class MssCFPop
 	extends CFGenKbGelPopObj
@@ -2091,6 +2124,52 @@ public class MssCFGelCompiler
 			remainingMacro = macro.substring(start);
 
 			ICFGenKbGelModifierObj modifierObj = new MssCFModifierCoerceLeadLower( genEngine ); 
+			ICFGenKbGelModifierEditObj modifierEdit = (ICFGenKbGelModifierEditObj)modifierObj.beginEdit();
+			modifierEdit.setRequiredOwnerTenant( myGelCache.getRequiredOwnerTenant() );
+			modifierEdit.setRequiredContainerGelCache( myGelCache );
+			modifierEdit.setRequiredSourceText( macro );
+			modifierObj = (ICFGenKbGelModifierObj)modifierEdit.create();
+			modifierEdit = null;
+
+			ICFGenKbGelInstructionObj remainderInstruction = compileMacro( remainingMacro );
+			if( remainderInstruction == null ) {
+				ret = null;
+				setCompileError();
+				StringBuffer msg = new StringBuffer( getClass().getSimpleName() );
+				msg.append( '.' );
+				msg.append( S_ProcName );
+				msg.append( "() Modifiers must always be followed by macro specifications whose results are to be modified\n" );
+				getCompileLog().message( msg.toString() );
+			}
+			else {
+				modifierEdit = (ICFGenKbGelModifierEditObj)( modifierObj.beginEdit() );
+				modifierEdit.setOptionalLookupRemainder( remainderInstruction );
+				try {
+					modifierEdit.update();
+					modifierEdit = null;
+					ret = modifierObj;
+				}
+				catch( Exception e ) {
+					modifierEdit.endEdit();
+					modifierEdit = null;
+					ret = null;
+				}
+			}
+		}
+		else if( macro.startsWith( _HEX_TO_DECIMAL ) ) {
+			start = _HEX_TO_DECIMAL.length();
+			while ( ( start < lenMacro )
+				&&	(	(( ch = macro.charAt(start)) == ' ')
+						|| ch == '\t'
+						|| ch == '\r'
+						|| ch == '\n'
+						|| ch == '\f' ) ) 
+			{
+				start = start + 1;
+			}
+			remainingMacro = macro.substring(start);
+
+			ICFGenKbGelModifierObj modifierObj = new MssCFModifierHexToDecimal( genEngine ); 
 			ICFGenKbGelModifierEditObj modifierEdit = (ICFGenKbGelModifierEditObj)modifierObj.beginEdit();
 			modifierEdit.setRequiredOwnerTenant( myGelCache.getRequiredOwnerTenant() );
 			modifierEdit.setRequiredContainerGelCache( myGelCache );
