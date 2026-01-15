@@ -3,7 +3,7 @@
 /*
  *	org.msscf.msscf.CFCore
  *
- *	Copyright (c) 2016-2025 Mark Stephen Sobkow
+ *	Copyright (c) 2016-2026 Mark Stephen Sobkow
  *	
  *	MSS Code Factory CFCore 2.13 Generation Knowledgebase
  *	
