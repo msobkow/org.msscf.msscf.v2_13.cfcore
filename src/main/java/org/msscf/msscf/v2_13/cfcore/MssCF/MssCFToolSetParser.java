@@ -63,13 +63,13 @@ public class MssCFToolSetParser extends MssCFSaxParser implements ContentHandler
 	/**
 	 *	The namespace URI of the supported schema
 	 */
-	public final static String	SCHEMA_XMLNS = "http://gitlab.markhome.server:8088/msscf/2.0.13/cfgenkb-2.13-toolset";
+	public final static String	SCHEMA_XMLNS = "https://msobkow.github.io/msscf/2.0.13/cfgenkb-2.13-toolset";
 
 	/**
 	 *	The source for loading the supported schema
 	 */
-	public final static String	SCHEMA_URI = "http://gitlab.markhome.server:8088/msscf/2.0.13/xsd/cfgenkb-2.13-toolset.xsd";
-	public final static String	SCHEMA_HTTPS_URI = "http://gitlab.markhome.server:8088/msscf/2.0.13/xsd/cfgenkb-2.13-toolset.xsd";
+	public final static String	SCHEMA_URI = "https://msobkow.github.io/msscf/2.0.13/xsd/cfgenkb-2.13-toolset.xsd";
+	public final static String	SCHEMA_HTTPS_URI = "https://msobkow.github.io/msscf/2.0.13/xsd/cfgenkb-2.13-toolset.xsd";
 	public final static String	SCHEMA_ROOT_URI = "/xsd/cfgenkb-2.13-toolset.xsd";
 
 	/**
